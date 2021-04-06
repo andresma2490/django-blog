@@ -9,6 +9,11 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   web:
     build: .
@@ -18,4 +23,5 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      db:
+         condition: service_healthy

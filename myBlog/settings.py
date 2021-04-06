@@ -40,6 +40,7 @@ DJANGO_APPS = [
 ]
 
 LOCAL_APPS = [
+    'apps.users',
     'apps.articles',
 ]
 
@@ -109,6 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'users.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/

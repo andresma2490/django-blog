@@ -1,0 +1,27 @@
+{
+  "name": "myblog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bootstrap": "^5.0.0-beta3"
+  },
+  "devDependencies": {
+    "sass": "^1.32.8"
+  },
+  "scripts": {
+    "sass": "sass staticfiles/scss/main.scss staticfiles/css/main.min.css",
+    "sass-watch:": "sass --watch staticfiles/scss/main.scss staticfiles/css/main.min.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andresma2490/django-practice.git"
+  },
+  "author": "andresma2490",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andresma2490/django-practice/issues"
+  },
+  "homepage": "https://github.com/andresma2490/django-practice#readme"
+}

@@ -12,17 +12,14 @@ from django.views.generic.edit import FormView
 
 from .forms import UserForm, LoginForm
 from .models import User
+from .decorators import login_excluded
 
+
+@method_decorator(login_excluded, name='dispatch')
 class RegisterView(FormView):
     template_name = "users/register.html"
     form_class = UserForm
     success_url = reverse_lazy("articles:home")
-
-    def dispatch(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return redirect(reverse_lazy("users:profile"))
-        
-        return super().dispatch(*args, **kwargs)
 
     def form_valid(self, form):
         User.objects.create_user(
@@ -34,15 +31,10 @@ class RegisterView(FormView):
         )
         return super(RegisterView, self).form_valid(form)
 
+@method_decorator(login_excluded, name='dispatch')
 class LoginView(FormView):
     template_name = "users/login.html"
     form_class = LoginForm
-
-    def dispatch(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return redirect(self.get_success_url())
-        
-        return super().dispatch(*args, **kwargs)
 
     def get_success_url(self):
         if self.request.user.is_authenticated and self.request.user.is_superuser:

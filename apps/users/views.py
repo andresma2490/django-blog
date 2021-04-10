@@ -1,7 +1,11 @@
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+
+from django.utils.decorators import method_decorator
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 from django.views.generic import TemplateView, View
 from django.views.generic.edit import FormView
@@ -13,6 +17,12 @@ class RegisterView(FormView):
     template_name = "users/register.html"
     form_class = UserForm
     success_url = reverse_lazy("articles:home")
+
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect(reverse_lazy("users:profile"))
+        
+        return super().dispatch(*args, **kwargs)
 
     def form_valid(self, form):
         User.objects.create_user(
@@ -27,6 +37,12 @@ class RegisterView(FormView):
 class LoginView(FormView):
     template_name = "users/login.html"
     form_class = LoginForm
+
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect(self.get_success_url())
+        
+        return super().dispatch(*args, **kwargs)
 
     def get_success_url(self):
         if self.request.user.is_authenticated and self.request.user.is_superuser:
@@ -48,5 +64,6 @@ class LogoutView(View):
         logout(request)
         return HttpResponseRedirect(reverse('users:login'))
 
+@method_decorator(login_required, name='dispatch')
 class ProfileView(TemplateView):
     template_name = 'users/profile.html'

@@ -5,5 +5,23 @@
 {% endblock title %}
 
 {% block content %}
-    <h1>Home</h1>
+    <div class="row">
+        {% for article in '0123456789'|make_list %}
+            <div class="col-12 col-lg-6">
+                <div class="card mt-4">
+                    <img class="card-img-top" src="https://picsum.photos/750/300" alt="article image">
+                    <div class="card-body">
+                        <h2 class="card-title">Post Title</h2>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
+                        <a href="#" class="btn btn-primary">Read More →</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Posted on January 1, 2020 by
+                        <a href="#">Start Bootstrap</a>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
 {% endblock content %}

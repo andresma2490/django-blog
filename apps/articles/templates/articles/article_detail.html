@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    myBlog | {{ article.title }}
+{% endblock title %}
+
+{% block content %}
+    <div class="row p-4 m-0 mt-4 bg-white border">
+        <div class="col-8">
+            <h1>{{ article.title }}</h1>
+        </div>
+        <div class="col-4 text-end">
+            <a href="{% url 'articles:article_edit' article.id %}" class="btn btn-info">Edit</a>
+            <a type="button" class="btn btn-danger" onclick="loadModal('{% url 'articles:article_delete' article.id %}')">Delete</a>
+        </div>
+
+        <div class="col-12">
+            <div class="col-12 h-15rem"
+                style="background-image: url('{{ article.image.url }}');
+                       background-color: white;
+                       background-repeat: no-repeat;
+                       background-size: contain;
+                       background-position: center center;">
+            </div>
+            {{ article.content }}
+        </div>
+    </div>
+{% endblock content %}

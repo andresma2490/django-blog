@@ -7,10 +7,18 @@ $footer-height: 3.5rem;
 
 #content{
     margin-top: $nav-height;
-    margin-bottom: $nav-height;
+    padding-bottom: $nav-height;
     min-height: calc(100vh - #{$nav-height} - #{$footer-height});
 }
 
 #footer{
     height: $footer-height;
+}
+
+.article{
+    height: 17.8rem;
+}
+
+.article-footer{
+    height: calc(17.8rem - 15rem);
 }

@@ -1,0 +1,13 @@
+
+
+<form class="py-4 px-5" method="post" action="{% url 'articles:article_delete' article.id %}">
+    {% csrf_token %}
+    
+    <h4 class="mb-0">Are you sure to delete this article?</h4>
+    <h4 class="text-danger">{{ article.title }}</h4>
+
+    <div class="text-end mt-4">
+        <button type="button" class="btn btn-outline-secondary me-1" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </div>
+</form>

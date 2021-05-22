@@ -1,28 +1,28 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse
+from django.db.models import Q
 
-from .models import Article
+from .models import Article, Category
 from .forms import ArticleForm
 
 class ArticleList(ListView):
     model = Article
     template_name = 'articles/home.html'
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['articles'] = Article.objects.all()
-        return context
-
-
-class ArticleCategory(ListView):
-    model = Article
-    template_name = 'articles/home.html'
-
     def get_queryset(self):
-        category = get_object_or_404(Category, name=self.kwargs['category_id'])
-        return Article.objects.filter(categories=category)
-    
+        category = self.request.GET.get('category', None)
+        title = self.request.GET.get('title', None)
+
+        if self.request.GET.get('title'):
+            return Article.objects.filter(Q(title__icontains=self.request.GET.get('title')))
+
+        if self.request.GET.get('category'):
+            search_category = get_object_or_404(Category, name=self.request.GET.get('category'))
+            return Article.objects.filter(categories=search_category)
+        
+        return super(ArticleList, self).get_queryset()
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['articles'] = self.get_queryset()

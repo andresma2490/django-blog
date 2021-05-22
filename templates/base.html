@@ -20,21 +20,21 @@
                 <a class="navbar-brand d-none d-sm-inline ps-3" href="{% url 'articles:home' %}">myBlog</a>
                 <a class="navbar-brand d-sm-none ps-3" href="{% url 'articles:home' %}">mB</a>
                 
-                <div class="d-flex position-relative ms-md-auto w-15rem me-2">
-                    <input type="text" class="input-search w-100 text-white" placeholder="Search">
-                    <span class="position-absolute end-0 text-white px-2">
+                <form id="search_form" method="GET" action="{% url 'articles:home' %}" class="d-flex position-relative ms-md-auto w-15rem me-2">
+                    <input id="search_title" name="title" type="text" class="input-search w-100 text-white" placeholder="Search">
+                    <span onclick="searchArticle()" class="position-absolute end-0 cursor-pointer text-white px-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                         </svg>
                     </span>
-                </div>
+                </form>
 
                 <button class="navbar-toggler me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
 
-            <div class="collapse navbar-collapse bg-dark mt-2 mt-md-0 px-3 px-md-0" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse bg-dark mt-1 mt-md-0 px-3 px-md-0" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto me-md-3">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -42,18 +42,13 @@
                     </a>
                     <ul id="categories-menu" class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <div class="row">
-                            <div class="col-12 col-sm-6">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </div>
+                            {% for category in categories %}
+                                <li class="col-12 col-sm-6 {% if forloop.counter|divisibleby:2 %}ps-sm-0{% else %}pe-sm-0{% endif %} cursor-pointer">
+                                    <a class="dropdown-item" href="{% url 'articles:home' %}?category={{ category.name }}">
+                                        {{ category.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
                         </div>
                     </ul>
                 </li>
@@ -106,6 +101,11 @@
                 .catch(error =>{
                     console.error(error);
                 })
+        }
+
+        function searchArticle(){
+            const search_form = document.getElementById("search_form");
+            search_form.submit();
         }
     </script>
     {% block scripts %}

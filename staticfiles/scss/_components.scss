@@ -20,6 +20,7 @@ $footer-height: 3.5rem;
     border: 0 solid transparent;
     border-bottom: 1px solid rgba(white,.55);
     border-radius: 0;
+    caret-color: white;
 
     &:focus{
         outline: 0;
@@ -29,8 +30,17 @@ $footer-height: 3.5rem;
     &.text-white::placeholder{
         color: rgba(white,.55);
     }
+    
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover, 
+    &:-webkit-autofill:focus{
+        -webkit-text-fill-color: white;
+        transition: background-color 5000s ease-in-out 0s;
+    }
 }
 
 #categories-menu{
-    min-width: 22.5rem;
+    @media screen and (min-width: 576px){
+        min-width: 22.5rem;
+    }
 }

@@ -8,26 +8,25 @@
     <div class="row">
         {% if articles %}
             {% for article in articles %}
-                {% if forloop.first %}
+                {% if forloop.first and not request.GET %}
                     <div class="col-12 row m-0 mt-4 bg-white border min-h-16rem pe-xl-5">
-                        <div class="col-12 col-lg-6 col-xl-4 h-15rem position-relative">
+                        <div class="col-12 col-md-6 col-xl-4 h-15rem position-relative overflow-hidden">
                             <div class="position-absolute start-0 h-100 w-100"
                                 style="background-image: url('{{ article.image.url }}');
                                         background-color: white;
                                         background-repeat: no-repeat;
                                         background-size: cover;
-                                        background-position: center center;">
+                                        background-position: center center;
+                                        filter: blur(10px);">
                             </div>
                             <div class="position-absolute start-0 h-100 w-100"
                                 style="background-image: url('{{ article.image.url }}');
-                                        background-color: rgba(0,0,0, 0.1);
                                         background-repeat: no-repeat;
                                         background-size: contain;
-                                        background-position: center center;
-                                        backdrop-filter: blur(100px);">
+                                        background-position: center center;">
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6 col-xl-8">
+                        <div class="col-12 col-md-6 col-xl-8">
                             <h3><a href="{% url 'articles:article_detail' article.id %}">{{ article.title }}</a></h3>
                             <div class="d-flex align-items-center text-muted mb-4">
                                 Posted on {{ article.date_created }} by <a class="mx-1" href="#">{{ article.author.username }}</a>
@@ -37,24 +36,23 @@
                     </div>
                 {% else %}
                     <div class="col-12 col-xl-4 row m-0 mt-2 bg-white border min-h-16rem">
-                        <div class="col-12 col-lg-6 col-xl-12 h-15rem position-relative">
+                        <div class="col-12 col-md-6 col-xl-12 h-15rem position-relative overflow-hidden">
                             <div class="position-absolute start-0 h-100 w-100"
                                 style="background-image: url('{{ article.image.url }}');
                                         background-color: white;
                                         background-repeat: no-repeat;
                                         background-size: cover;
-                                        background-position: center center;">
+                                        background-position: center center;
+                                        filter: blur(10px);">
                             </div>
                             <div class="position-absolute start-0 h-100 w-100"
-                                style="background-image: url('{{ article.image.url }}');
-                                        background-color: rgba(0,0,0, 0.5);
+                                style="background-image: url('{{ article.image.url }}');                                        
                                         background-repeat: no-repeat;
                                         background-size: contain;
-                                        background-position: center center;
-                                        backdrop-filter: blur(100px);">
+                                        background-position: center center;">
                             </div>
                         </div>                        
-                        <div class="col-12 col-lg-6 col-xl-12">
+                        <div class="col-12 col-md-6 col-xl-12">
                             <h3><a href="{% url 'articles:article_detail' article.id %}">{{ article.title }}</a></h3>
                             <div class="d-flex align-items-center text-muted mb-4">
                                 Posted on {{ article.date_created }} by <a class="mx-1" href="#">{{ article.author.username }}</a>

@@ -22,7 +22,7 @@
                 
                 <form id="search_form" method="GET" action="{% url 'articles:home' %}" class="d-flex position-relative ms-md-auto w-15rem me-2">
                     <input id="search_title" name="title" type="text" class="input-search w-100 text-white" placeholder="Search">
-                    <span onclick="searchArticle()" class="position-absolute end-0 cursor-pointer text-white px-2">
+                    <span onclick="submitForm('search_form')" class="position-absolute end-0 cursor-pointer text-white px-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                         </svg>
@@ -56,7 +56,7 @@
                     <a class="nav-link" href="#">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Account</a>
+                    <a class="nav-link" href="{% url 'users:login' %}">Account</a>
                 </li>
                 </ul>
             </div>
@@ -103,9 +103,9 @@
                 })
         }
 
-        function searchArticle(){
-            const search_form = document.getElementById("search_form");
-            search_form.submit();
+        function submitForm(id){
+            const form = document.getElementById(id);
+            form.submit();
         }
     </script>
     {% block scripts %}

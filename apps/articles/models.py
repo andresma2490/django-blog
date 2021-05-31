@@ -1,5 +1,6 @@
 from django.db import models
 from apps.users.models import User
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class Category(models.Model):
     name = models.CharField(primary_key=True, max_length=50)
@@ -12,7 +13,7 @@ class Category(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=50)
-    content = models.TextField()
+    content = RichTextUploadingField()
     image = models.ImageField(default='articles/article_default_image.jpg', upload_to="articles")
     date_created = models.DateField(auto_now_add=True)
     date_updated = models.DateField(auto_now=True)

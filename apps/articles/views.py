@@ -11,9 +11,6 @@ class ArticleList(ListView):
     template_name = 'articles/home.html'
     
     def get_queryset(self):
-        category = self.request.GET.get('category', None)
-        title = self.request.GET.get('title', None)
-
         if self.request.GET.get('title'):
             return Article.objects.filter(Q(title__icontains=self.request.GET.get('title')))
 

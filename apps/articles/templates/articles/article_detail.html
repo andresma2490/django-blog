@@ -22,7 +22,7 @@
                        background-size: contain;
                        background-position: center center;">
             </div>
-            {{ article.content }}
+            {{ article.content|safe }}
         </div>
     </div>
 {% endblock content %}

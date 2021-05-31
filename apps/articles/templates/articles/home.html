@@ -31,7 +31,7 @@
                             <div class="d-flex align-items-center text-muted mb-4">
                                 Posted on {{ article.date_created }} by <a class="mx-1" href="#">{{ article.author.username }}</a>
                             </div>
-                            <p>{{ article.content }}</p>
+                            <p>{{ article.content|safe }}</p>
                         </div>
                     </div>
                 {% else %}
@@ -57,7 +57,7 @@
                             <div class="d-flex align-items-center text-muted mb-4">
                                 Posted on {{ article.date_created }} by <a class="mx-1" href="#">{{ article.author.username }}</a>
                             </div>
-                            <p>{{ article.content }}</p>
+                            <p>{{ article.content|safe }}</p>
                         </div>
                     </div>
                 {% endif %}                                    

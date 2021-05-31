@@ -1,7 +1,9 @@
 from django import forms
 from .models import Article
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 class ArticleForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorUploadingWidget())
 
     class Meta:
         model = Article
@@ -14,9 +16,6 @@ class ArticleForm(forms.ModelForm):
         ]
         widgets = {
             'title': forms.TextInput(
-                attrs={'class':'form-control'}
-            ),
-            'content': forms.Textarea(
                 attrs={'class':'form-control'}
             ),
             'author': forms.Select(

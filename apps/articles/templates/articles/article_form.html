@@ -8,6 +8,10 @@
     {% endif %}
 {% endblock title %}
 
+{% block styles %}
+    {{ form.media }}
+{% endblock styles %}
+    
 {% block content %}
     <form class="mt-4" method="post" enctype="multipart/form-data">
         {% csrf_token %} 

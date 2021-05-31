@@ -44,7 +44,12 @@ LOCAL_APPS = [
     'apps.articles',
 ]
 
-INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
+THIRD_PARTY_APPS = [
+    'ckeditor',
+    'ckeditor_uploader',
+]
+
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -136,6 +141,28 @@ STATICFILES_DIRS = (
     BASE_DIR/'staticfiles',
 )
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR/'static'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media'
+
+
+# ckeditor settings
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'width': '100%',
+        'toolbar_Custom': [
+            {'name': 'basicstyles', 'items': ['Bold', 'Italic', 'Underline']},
+            {'name': 'paragraph',
+             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-',
+                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
+            {'name': 'links', 'items': ['Link', 'Unlink']},
+            {'name': 'insert','items': ['Image', 'Iframe', 'HorizontalRule']},
+            {'name': 'document', 'items': ['Source',]}
+        ]
+    }
+}

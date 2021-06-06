@@ -1,6 +1,7 @@
 from django.db import models
 from apps.users.models import User
-from ckeditor_uploader.fields import RichTextUploadingField
+
+from .utils import RichTextUploadingField
 
 class Category(models.Model):
     name = models.CharField(primary_key=True, max_length=50)

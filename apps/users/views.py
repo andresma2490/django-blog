@@ -1,11 +1,10 @@
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
-
-from django.utils.decorators import method_decorator
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+
+from django.utils.decorators import method_decorator
 
 from django.views.generic import TemplateView, View
 from django.views.generic.edit import FormView

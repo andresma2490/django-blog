@@ -45,6 +45,12 @@ $footer-height: 3.5rem;
     }
 }
 
+.first-img{
+    @media screen and (min-width: 1200px){
+        border-right: solid 1.8rem white;
+    }
+}
+
 .django-ckeditor-widget{
     width: 100% !important;
 }

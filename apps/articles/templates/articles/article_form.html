@@ -13,7 +13,7 @@
 {% endblock styles %}
     
 {% block content %}
-    <form class="mt-4" method="post" enctype="multipart/form-data">
+    <form class="row p-4 m-0 mt-4 bg-white border" method="post" enctype="multipart/form-data">
         {% csrf_token %} 
         {{ form.as_p }} 
         

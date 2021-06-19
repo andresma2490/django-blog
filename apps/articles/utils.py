@@ -3,7 +3,7 @@ from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 
 ALLOWED_TAGS = set(bleach.ALLOWED_TAGS + [ 
-    'a', 'blockquote', 'code', 'del', 'dd', 'dl', 'dt', 
+    'a', 'blockquote', 'code', 'del', 'dd', 'dl', 'dt', 'div',
     'h1', 'h2', 'h3', 'h3', 'h4', 'h5', 'i', 'img', 'kbd', 
     'li', 'ol', 'ul', 'p', 'pre', 's', 'sup', 'sub', 'em', 
     'strong', 'strike', 'ul', 'br', 'hr' ]) 

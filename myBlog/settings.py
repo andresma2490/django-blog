@@ -153,6 +153,7 @@ CKEDITOR_IMAGE_BACKEND = 'pillow'
 
 CKEDITOR_CONFIGS = {
     'default': {
+        'allowedContent': True,
         'toolbar': 'Custom',
         'width': '100%',
         'toolbar_Custom': [

@@ -13,3 +13,12 @@ def validate_author(function):
         return function(request, *args, **kwargs)
 
     return wrap
+
+def validate_is_editor(function):
+    def wrap(request, *args, **kwargs):
+        if not request.user.is_editor:
+            return redirect(reverse_lazy("articles:home"))
+
+        return function(request, *args, **kwargs)
+
+    return wrap

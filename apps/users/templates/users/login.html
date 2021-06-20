@@ -1,70 +1,54 @@
-{% load static %}
+{% extends 'base.html' %}
+{% block title %}
+    myBlog | login
+{% endblock title %}
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}login{% endblock title %}</title>
+{% block content %}
+    <div class="d-flex justify-content-center align-items-center mt-5">
+        <div class="card">
+            <div class="card-body p-5">
+                <div class="text-center mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                    </svg>
+                </div>
 
-    <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
-    {% block styles %}
-    {% endblock styles %}
-</head>
-<body>
-    {% block content %}
-        <div class="d-flex justify-content-center align-items-center min-vh-100">
-            <div class="card">
-                <div class="card-body p-5">
-                    <div class="text-center mb-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                        </svg>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.email }}                        
+                    </div>
+                    <div class="mb-3">
+                        {{ form.password }}                      
                     </div>
 
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            {{ form.email }}                        
-                        </div>
-                        <div class="mb-3">
-                            {{ form.password }}                      
-                        </div>
-
-                        {% if form.errors %}
-                            {% for field in form %}
-                                {% for error in field.errors %}
-                                    <div class="text-center text-danger">
-                                        <span>* {{ error|escape }}</span>
-                                    </div>
-                                {% endfor %}
-                            {% endfor %}
-                            {% for error in form.non_field_errors %}
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
                                 <div class="text-center text-danger">
                                     <span>* {{ error|escape }}</span>
                                 </div>
                             {% endfor %}
-                        {% endif %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="text-center text-danger">
+                                <span>* {{ error|escape }}</span>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
 
-                        <div class="d-grid my-2">
-                            <button type="submit" class="btn btn-primary">
-                                login
-                            </button>
-                        </div>
-                        <div class="text-center">
-                            Dont have an account? 
-                            <a href={% url "users:register" %}>sign up</a>
-                        </div>
-                    </form>
-                </div>
+                    <div class="d-grid my-2">
+                        <button type="submit" class="btn btn-primary">
+                            login
+                        </button>
+                    </div>
+                    <div class="text-center">
+                        Dont have an account? 
+                        <a href='{% url "users:register" %}'>sign up</a>
+                    </div>
+                </form>
             </div>
         </div>
-    {% endblock content %}
-
-    {% block scripts %}
-    {% endblock scripts %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
-</body>
-</html>
+    </div>
+{% endblock content %}

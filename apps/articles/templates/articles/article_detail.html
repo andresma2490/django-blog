@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    myBlog | {{ article.title }}
+    {{ article.title }}
 {% endblock title %}
+
+{% block metadata %}
+    <meta name="description" content="{{ article.resume }}">
+    <meta name="keywords" content="{{ article.keywords }}">
+    <meta name="author" content="{{ article.author.username }}">
+{% endblock metadata %}
 
 {% block content %}
     <main class="row p-4 m-0 mt-4 bg-white border">

@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 
 from .models import Article, Category
 from .forms import ArticleForm
-from .decorators import validate_author
+from .decorators import validate_author, validate_is_editor
 
 class ArticleList(ListView):
     model = Article
@@ -31,16 +31,22 @@ class ArticleList(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
+@method_decorator(validate_is_editor, name='dispatch')
 class ArticleCreate(CreateView):
     model = Article
     form_class = ArticleForm
     template_name = 'articles/article_form.html'
     
     def get_success_url(self):
-        return reverse('articles:article_detail', kwargs={'pk': self.object.pk})
+        return reverse('articles:article_detail', kwargs={'slug': self.object.slug})
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+
+        if Article.objects.filter(author=form.instance.author, title=form.instance.title).first():
+            form.add_error("title", "You have another article with the same title")
+            return super(ArticleCreate, self).form_invalid(form)
+            
         return super(ArticleCreate, self).form_valid(form)
 
 class ArticleDetail(DetailView):
@@ -56,8 +62,14 @@ class ArticleUpdate(UpdateView):
     template_name = 'articles/article_form.html'
     
     def get_success_url(self):
-        return reverse('articles:article_detail', kwargs={'pk': self.object.pk})
+        return reverse('articles:article_detail', kwargs={'slug': self.object.slug})
 
+    def form_valid(self, form):
+        if Article.objects.filter(author=self.request.user, title=form.instance.title).first():
+            form.add_error("title", "You have another article with the same title")
+            return super(ArticleUpdate, self).form_invalid(form)
+            
+        return super(ArticleUpdate, self).form_valid(form)
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(validate_author, name='dispatch')

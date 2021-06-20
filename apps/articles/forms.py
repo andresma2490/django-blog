@@ -1,6 +1,7 @@
 from django import forms
-from .models import Article
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
+
+from .models import Article
 
 class ArticleForm(forms.ModelForm):
     content = forms.CharField(widget=CKEditorUploadingWidget())
@@ -9,10 +10,11 @@ class ArticleForm(forms.ModelForm):
         model = Article
         fields = [
             'title',
+            'resume',
             'content',
             'image',
-            'categories'
-            #'author',
+            'categories',
+            'keywords'
         ]
         widgets = {
             'title': forms.TextInput(

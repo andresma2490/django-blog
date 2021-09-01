@@ -14,10 +14,33 @@
     
 {% block content %}
     <form class="row p-4 m-0 mt-4 bg-white border" method="post" enctype="multipart/form-data">
-        {% csrf_token %} 
-        {{ form.as_p }} 
+        {% csrf_token %}
+        <b class="p-0">{{ form.title.label }}*</b>
+        {{ form.title }}
+        <span class="text-danger p-0">{{ form.title.errors }}</span>
+
+        <b class="mt-4 p-0">{{ form.resume.label }}*</b>
+        {{ form.resume }}
+        <span class="text-danger p-0">{{ form.resume.errors }}</span>
+
+        <b class="mt-4 p-0">{{ form.content.label }}*</b>
+        {{ form.content }}
+        <span class="text-danger p-0">{{ form.content.errors }}</span>
+
+        <b class="mt-4 p-0">{{ form.image.label }}</b>
+        {{ form.image }}
+        <span class="text-danger p-0">{{ form.image.errors }}</span>
+
+        <b class="mt-4 p-0">{{ form.categories.label }}*</b>
+        {{ form.categories }}
+        <span class="text-danger p-0">{{ form.categories.errors }}</span>
+
+        <b class="mt-4 p-0">{{ form.keywords.label }}</b>
+        {{ form.keywords }}
+        <span class="text-danger p-0">{{ form.keywords.errors }}</span>
         
-        <div class="text-end">
+        <div class="mt-4 p-0 text-end">
+            <a class="btn btn-danger" href="{% if object %}{% url 'articles:article_detail' object.slug %}{% else %}{% url 'articles:home' %}{% endif %}">Cancel</a>
             <button type="submit" class="btn btn-primary">Save</button>
         </div>
     </form>

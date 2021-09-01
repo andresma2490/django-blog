@@ -3,6 +3,7 @@ $footer-height: 3.5rem;
 
 #navigation{
     height: $nav-height;
+    white-space: nowrap;
 }
 
 #content{
@@ -45,12 +46,26 @@ $footer-height: 3.5rem;
     }
 }
 
-.first-img{
-    @media screen and (min-width: 1200px){
-        border-right: solid 1.8rem white;
+#home-header{
+    @media screen and (max-width: 1200px){
+        height: 34vh !important;
+    }
+}
+
+.grid-articles{
+    display: grid;
+    grid-gap: 0.5rem;
+    grid-auto-rows: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+
+    @media screen and (max-width: 1200px){
+        & > article{
+            grid-column: 1/-1;
+        }
     }
 }
 
 .django-ckeditor-widget{
     width: 100% !important;
+    padding: 0px;
 }

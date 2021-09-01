@@ -4,6 +4,7 @@ node_modules/
 
 data/db/
 media/*
+!media/default/
 static/
 
 __pycache__

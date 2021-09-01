@@ -1,18 +1,24 @@
-{% extends 'base.html' %}
+{% extends 'articles/home.html' %}
+
 {% block title %}
     Profile
 {% endblock title %}
 
 {% block content %}
-    <div class="container">
-        {% if request.user.is_editor %}
-            <a href="{% url 'articles:article_create' %}" class="btn btn-primary">
-                Create an article
-            </a>
-        {% endif %}
+    <div class="container p-0 py-2">
+        {% if request.user == user_profile %}
+            {% if request.user.is_editor %}
+                <a href="{% url 'articles:article_create' %}" class="btn btn-primary">
+                    Create an article
+                </a>
+            {% endif %}
 
-        <a href="{% url 'users:logout' %}" class="btn btn-primary">
-            Logout
-        </a>
+            <a href="{% url 'users:logout' %}" class="btn btn-primary">
+                Logout
+            </a>
+        {% endif %}  
     </div>
+
+    {# Articles list #}
+    {{ block.super }}
 {% endblock content %}

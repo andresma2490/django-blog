@@ -15,10 +15,10 @@ class Category(models.Model):
         return self.name
 
 class Article(models.Model):
-    title = models.CharField(max_length=50, null=False, blank=False)
+    title = models.CharField(max_length=100, null=False, blank=False)
     resume = models.TextField(null=False, blank=False)
     content = RichTextUploadingField()
-    image = models.ImageField(default='articles/article_default_image.jpg', upload_to="articles")
+    image = models.ImageField(default='default/article.jpg', upload_to="articles")
     keywords = models.TextField(null=True, blank=True)
     slug = models.SlugField(null=False, blank=False, unique=True)
     is_public = models.BooleanField(default=True)

@@ -5,66 +5,34 @@
 {% endblock title %}
 
 {% block content %}
-    <main class="row">
+    <main class="grid-articles">
         {% if articles %}
             {% for article in articles %}
-                {% if forloop.first and not request.GET %}
-                    <article class="col-12 p-0 pt-2 px-2 ps-xl-0">
-                        <div class="row m-0 bg-white border min-h-16rem p-3 pt-0">
-                            <div class="col-12 col-md-6 col-xl-4 h-15rem position-relative overflow-hidden">
-                                <div class="position-absolute start-0 h-100 w-100"
-                                    style="background-image: url('{{ article.image.url }}');
-                                            background-color: white;
-                                            background-repeat: no-repeat;
-                                            background-size: cover;
-                                            background-position: center center;
-                                            filter: blur(10px);">
-                                </div>
-                                <div class="position-absolute start-0 h-100 w-100 first-img"
-                                    style="background-image: url('{{ article.image.url }}');
-                                            background-repeat: no-repeat;
-                                            background-size: contain;
-                                            background-position: center center;">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 col-xl-8 ps-xl-0">
-                                <h3><a href="{% url 'articles:article_detail' article.slug %}">{{ article.title }}</a></h3>
-                                <div class="d-flex align-items-center text-muted mb-4">
-                                    Posted on {{ article.date_created }} by <a class="mx-1" href="#">{{ article.author.username }}</a>
-                                </div>
-                                <p>{{ article.content|safe }}</p>
-                            </div>
+                <article class="row align-content-start m-0 p-3 pt-0 bg-white border">
+                    <div class="col-12 col-md-6 col-xl-12 h-15rem position-relative overflow-hidden">
+                        <div class="position-absolute start-0 h-100 w-100"
+                            style="background-image: url('{{ article.image.url }}');
+                                    background-color: white;
+                                    background-repeat: no-repeat;
+                                    background-size: cover;
+                                    background-position: center center;
+                                    filter: blur(10px);">
                         </div>
-                    </article>
-                {% else %}
-                    <article class="col-12 col-xl-4 p-0 pt-2 px-2 ps-xl-0">
-                        <div class="row m-0 bg-white border min-h-16rem p-3 pt-0">
-                            <div class="col-12 col-md-6 col-xl-12 h-15rem position-relative overflow-hidden">
-                                <div class="position-absolute start-0 h-100 w-100"
-                                    style="background-image: url('{{ article.image.url }}');
-                                            background-color: white;
-                                            background-repeat: no-repeat;
-                                            background-size: cover;
-                                            background-position: center center;
-                                            filter: blur(10px);">
-                                </div>
-                                <div class="position-absolute start-0 h-100 w-100"
-                                    style="background-image: url('{{ article.image.url }}');                                        
-                                            background-repeat: no-repeat;
-                                            background-size: contain;
-                                            background-position: center center;">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 col-xl-12">
-                                <h3><a href="{% url 'articles:article_detail' article.slug %}">{{ article.title }}</a></h3>
-                                <div class="d-flex align-items-center text-muted mb-4">
-                                    Posted on {{ article.date_created }} by <a class="mx-1" href="#">{{ article.author.username }}</a>
-                                </div>
-                                <p>{{ article.content|safe }}</p>
-                            </div>
+                        <div class="position-absolute start-0 h-100 w-100"
+                            style="background-image: url('{{ article.image.url }}');                                        
+                                    background-repeat: no-repeat;
+                                    background-size: contain;
+                                    background-position: center center;">
                         </div>
-                    </article>
-                {% endif %}                                    
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-12">
+                        <h3><a class="text-decoration-none" href="{% url 'articles:article_detail' article.slug %}">{{ article.title|truncatechars:44 }}</a></h3>
+                        <div class="d-flex align-items-center text-muted mb-4">
+                            Posted on {{ article.date_created }} by <a class="text-decoration-none mx-1" href="{% url 'users:profile' article.author.username %}">{{ article.author.username|truncatechars:10 }}</a>
+                        </div>
+                        <p>{{ article.content|safe|truncatechars:220 }}</p>
+                    </div>
+                </article>
             {% endfor %}
         {% else %}
             <div class="text-center mt-4">
@@ -72,4 +40,5 @@
             </div>
         {% endif %}
     </main>
+    {% include 'utils/_paginator.html' %}
 {% endblock content %}

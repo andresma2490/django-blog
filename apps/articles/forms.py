@@ -20,5 +20,17 @@ class ArticleForm(forms.ModelForm):
             'title': forms.TextInput(
                 attrs={'class':'form-control'}
             ),
+            'resume': forms.Textarea(
+                attrs={'class':'form-control', 'rows':5 }
+            ),
+            'keywords': forms.TextInput(
+                attrs={'class':'form-control'}
+            ),
             'categories': forms.CheckboxSelectMultiple()
         }
+
+    def clean_title(self):
+        title = self.cleaned_data.get('title')
+        if len(title) >= 100:
+            self.add_error("title", "value too long for title (max 100 characters)")
+        return title

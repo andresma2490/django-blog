@@ -1,3 +1,4 @@
+from django.contrib import auth
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 
@@ -6,12 +7,13 @@ from django.contrib.auth.decorators import login_required
 
 from django.utils.decorators import method_decorator
 
-from django.views.generic import TemplateView, View
+from django.views.generic import ListView, View
 from django.views.generic.edit import FormView
 
 from .forms import UserForm, LoginForm
 from .models import User
 from .decorators import login_excluded
+from apps.articles.models import Article
 
 
 @method_decorator(login_excluded, name='dispatch')
@@ -55,6 +57,22 @@ class LogoutView(View):
         logout(request)
         return HttpResponseRedirect(reverse('users:login'))
 
-@method_decorator(login_required, name='dispatch')
-class ProfileView(TemplateView):
+class ProfileView(ListView):
+    model = User
+    slug_field = "username"
+    slug_url_kwarg = "username"
     template_name = 'users/profile.html'
+    context_object_name = 'articles'
+    ordering = ['-id']
+    paginate_by = 6
+
+    def get_queryset(self):
+        username = self.kwargs.get('username', '')
+        articles = Article.objects.filter(author__username=username).order_by(*self.ordering)
+        return articles
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        username = self.kwargs.get('username', '')
+        context['user_profile'] = User.objects.get(username=username)
+        return context

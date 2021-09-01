@@ -57,11 +57,8 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{% url 'users:login' %}">
-                        {% if user.is_authenticated %} Account {% else %} Login {% endif %}                            
+                        {% if user.is_authenticated %} My Account {% else %} Login {% endif %}                            
                     </a>
                 </li>
                 </ul>
@@ -69,11 +66,32 @@
         </div>
     </nav>
 
-    <!-- Content -->
-    <div id="content" class="container-lg pt-2">
-        <!-- Main Content -->
-        {% block content %}
-        {% endblock content %}
+    <div id="content">        
+        {% if request.resolver_match.url_name == 'home' %}
+            {% if not request.GET or request.GET.page == '1' %}
+                <header id="home-header" class="d-flex justify-content-center align-items-end" 
+                        style="background-image: url('media/default/header.jpg');
+                            background-color: rgb(100,100,100);
+                            background-blend-mode: soft-light;
+                            background-repeat: no-repeat;
+                            background-size: cover;
+                            background-position: center center;
+                            background-attachment: fixed;
+                            height: 44vh;">
+                    
+                    <div class="mb-5 text-center text-white">
+                        <h1>myBlog</h1>
+                        <span><i>A Blog project made with django</i></span>
+                    </div>
+                </header>
+            {% endif %}
+        {% endif %}
+
+        <div class="container-lg pt-2">
+            <!-- Main Content -->
+            {% block content %}
+            {% endblock content %}
+        </div>
     </div>
 
     <!-- Modal -->

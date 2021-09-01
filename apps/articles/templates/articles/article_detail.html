@@ -17,7 +17,7 @@
         </div>
         {% if request.user == article.author %}
             <div class="col-4 text-end">
-                <a href="{% url 'articles:article_edit' article.id %}" class="btn btn-info">Edit</a>
+                <a href="{% url 'articles:article_edit' article.id %}" class="btn btn-primary">Edit</a>
                 <a type="button" class="btn btn-danger" onclick="loadModal('{% url 'articles:article_delete' article.id %}')">Delete</a>
             </div>
         {% endif %}

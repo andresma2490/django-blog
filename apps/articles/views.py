@@ -13,22 +13,19 @@ from .decorators import validate_author, validate_is_editor
 class ArticleList(ListView):
     model = Article
     template_name = 'articles/home.html'
+    context_object_name = 'articles'
+    ordering = ['-id']
+    paginate_by = 6
     
     def get_queryset(self):
         if self.request.GET.get('title'):
-            return Article.objects.filter(Q(title__icontains=self.request.GET.get('title')))
+            return Article.objects.filter(Q(title__icontains=self.request.GET.get('title'))).order_by(*self.ordering)
 
         if self.request.GET.get('category'):
             search_category = get_object_or_404(Category, name=self.request.GET.get('category'))
-            return Article.objects.filter(categories=search_category)
+            return Article.objects.filter(categories=search_category).order_by(*self.ordering)
         
         return super(ArticleList, self).get_queryset()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['articles'] = self.get_queryset()
-        return context
-
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(validate_is_editor, name='dispatch')
@@ -53,7 +50,6 @@ class ArticleDetail(DetailView):
     model = Article
     template_name = 'articles/article_detail.html'
 
-
 @method_decorator(login_required, name='dispatch')
 @method_decorator(validate_author, name='dispatch')
 class ArticleUpdate(UpdateView):
@@ -65,7 +61,8 @@ class ArticleUpdate(UpdateView):
         return reverse('articles:article_detail', kwargs={'slug': self.object.slug})
 
     def form_valid(self, form):
-        if Article.objects.filter(author=self.request.user, title=form.instance.title).first():
+        article_exist = Article.objects.filter(author=self.request.user, title=form.instance.title).first()
+        if article_exist and article_exist != self.get_object():
             form.add_error("title", "You have another article with the same title")
             return super(ArticleUpdate, self).form_invalid(form)
             

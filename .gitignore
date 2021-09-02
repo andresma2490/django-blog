@@ -2,7 +2,8 @@ env/
 venv/
 node_modules/
 
-data/db/
+environments/prod.env
+data/
 media/*
 !media/default/
 static/

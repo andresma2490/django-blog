@@ -7,10 +7,7 @@ services:
       - ./data/db:/var/lib/postgresql/data
     ports:
       - "2345:5432"
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+    env_file: ./environments/local.env
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -24,6 +21,7 @@ services:
       - .:/code
     ports:
       - "8080:8080"
+    env_file: ./environments/local.env
     depends_on:
       db:
         condition: service_healthy

@@ -3,6 +3,7 @@ from django.utils.text import slugify
 
 from apps.users.models import User
 
+from PIL import Image 
 from .utils import RichTextUploadingField
 
 class Category(models.Model):
@@ -36,7 +37,12 @@ class Article(models.Model):
     def save(self, *args, **kwargs):
         slug = "{title} by {author}".format(title=self.title, author=self.author.username)
         self.slug = slugify(slug)
+
         super(Article, self).save(*args, **kwargs)
+        image = Image.open(self.image.path)
+        image.save(self.image.path, quality=50, optimize=True)
+
+        return self
 
 class Favorites(models.Model):
     article_id = models.ForeignKey(Article, null=False, blank=False, on_delete=models.CASCADE)

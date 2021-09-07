@@ -124,6 +124,7 @@ USE_TZ = True
 
 STATICFILES_DIRS = (
     BASE_DIR/'staticfiles',
+    BASE_DIR/'node_modules'
 )
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR/'static'

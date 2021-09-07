@@ -1,6 +1,6 @@
 {% if is_paginated %}
     <nav class="mt-4">
-        <ul class="pagination justify-content-center">
+        <ul class="pagination justify-content-center flex-wrap">
             {% if page_obj.has_previous %}
                 <li class="page-item">
                     <a class="page-link bg-white text-primary font-weight-bold" href="?page={{ page_obj.previous_page_number }}">previous</a>

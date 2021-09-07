@@ -23,13 +23,10 @@
         {% endif %}
         
         <div class="col-12">
-            <div class="col-12 h-15rem"
-                style="background-image: url('{{ article.image.url }}');
-                       background-color: white;
-                       background-repeat: no-repeat;
-                       background-size: contain;
-                       background-position: center center;">
-            </div>
+            <img data-src="{{ article.image.url }}" 
+                class="col-12 h-15rem"
+                style="object-fit: contain"
+                alt="{{ article.title }}"/>
             {{ article.content|safe }}
         </div>
     </main>

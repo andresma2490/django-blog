@@ -1,0 +1,39 @@
+version: "3.9"
+   
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    ports:
+      - "2345:5432"
+    env_file: ./environments/local.env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    command: /bin/bash -c "python manage.py migrate && gunicorn myBlog.wsgi:application --bind 0.0.0.0:8080 --workers 2"
+    volumes:
+      - .:/code
+    ports:
+      - "8080"
+    env_file: ./environments/local.env
+    depends_on:
+      db:
+        condition: service_healthy
+
+  nginx:
+    image: nginx
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - ./static:/code/static
+      - ./media:/code/media
+    ports:
+      - 80:80
+    depends_on:
+      - web
+    

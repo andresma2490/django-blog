@@ -2,5 +2,9 @@ env/
 venv/
 node_modules/
 
-data/db/
-media/*
+data/
+media/
+static/
+
+__pycache__
+*.pyc

@@ -6,8 +6,8 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
     ports:
-      - "2345:5432"
-    env_file: ./environments/local.env
+      - "5432:5432"
+    env_file: ./environments/prod.env
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -16,12 +16,12 @@ services:
 
   web:
     build: .
-    command: /bin/bash -c "python manage.py migrate && gunicorn myBlog.wsgi:application --bind 0.0.0.0:8080 --workers 2"
+    command: /bin/bash -c "python manage.py migrate && gunicorn myBlog.wsgi:application --bind 0.0.0.0:8080 --workers 1"
     volumes:
       - .:/code
     ports:
       - "8080"
-    env_file: ./environments/local.env
+    env_file: ./environments/prod.env
     depends_on:
       db:
         condition: service_healthy

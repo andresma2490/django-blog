@@ -31,9 +31,9 @@ $footer-height: 3.5rem;
     &.text-white::placeholder{
         color: rgba(white,.55);
     }
-    
+
     &:-webkit-autofill,
-    &:-webkit-autofill:hover, 
+    &:-webkit-autofill:hover,
     &:-webkit-autofill:focus{
         -webkit-text-fill-color: white;
         transition: background-color 5000s ease-in-out 0s;
@@ -49,19 +49,6 @@ $footer-height: 3.5rem;
 #home-header{
     @media screen and (max-width: 1200px){
         height: 37.5vh !important;
-    }
-}
-
-.grid-articles{
-    display: grid;
-    grid-gap: 0.5rem;
-    grid-auto-rows: 1fr;
-    grid-template-columns: repeat(3, 1fr);
-
-    @media screen and (max-width: 1200px){
-        & > article{
-            grid-column: 1/-1;
-        }
     }
 }
 

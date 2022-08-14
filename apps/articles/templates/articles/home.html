@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}
-    myBlog
-{% endblock title %}
+{% block title %} myBlog {% endblock title %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'articles/css/articles.min.css' %}">
+{% endblock styles %}
+
 
 {% block content %}
     <main class="grid-articles">
@@ -36,3 +40,7 @@
     </main>
     {% include 'utils/_paginator.html' %}
 {% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'users/js/users.js' %}"></script>
+{% endblock scripts %}

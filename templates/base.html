@@ -13,7 +13,7 @@
     <title>{% block title %}{% endblock title %}</title>
 
     <link rel="stylesheet" href="{% static 'css/min.css' %}">
-    <script src="{% static 'lazysizes/lazysizes.min.js' %}" async=""></script>
+    <script src="{% static 'lazysizes.min.js' %}" async=""></script>
     {% block styles %}
     {% endblock styles %}
 </head>
@@ -24,7 +24,7 @@
             <div class="d-flex justify-content-between align-items-center w-100">
                 <a class="navbar-brand d-none d-sm-inline ps-3" href="{% url 'articles:home' %}">myBlog</a>
                 <a class="navbar-brand d-sm-none ps-3" href="{% url 'articles:home' %}">mB</a>
-                
+
                 <form id="search_form" method="GET" action="{% url 'articles:home' %}" class="d-flex position-relative ms-md-auto w-15rem me-2">
                     <input id="search_title" name="title" type="text" class="input-search w-100 text-white" placeholder="Search">
                     <span onclick="submitForm('search_form')" class="position-absolute end-0 cursor-pointer text-white px-2">
@@ -59,7 +59,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'users:login' %}">
-                        {% if user.is_authenticated %} My Account {% else %} Login {% endif %}                            
+                        {% if user.is_authenticated %} My Account {% else %} Login {% endif %}
                     </a>
                 </li>
                 </ul>
@@ -67,10 +67,10 @@
         </div>
     </nav>
 
-    <div id="content">        
+    <div id="content">
         {% if request.resolver_match.url_name == 'home' %}
             {% if not request.GET or request.GET.page == '1' %}
-                <header id="home-header" class="d-flex justify-content-center align-items-end" 
+                <header id="home-header" class="d-flex justify-content-center align-items-end"
                         style="background-image: url('media/default/header.jpg');
                             background-color: rgb(100,100,100);
                             background-blend-mode: soft-light;
@@ -79,7 +79,7 @@
                             background-position: center center;
                             background-attachment: fixed;
                             height: 44vh;">
-                    
+
                     <div class="mb-5 text-center text-white">
                         <h1>myBlog</h1>
                         <span><i>A Blog project made with django</i></span>
@@ -103,7 +103,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Footer -->
     <footer id="footer" class="bg-dark">
         <div class="container">

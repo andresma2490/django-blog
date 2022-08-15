@@ -1,1 +1,9 @@
+@import url(https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700|PT+Serif:700);
+
+$font-family-base: "PT Sans Caption", sans-serif;
+$font-size-base: 0.875rem;
+$line-height-base: 1.5;
+
+$headings-font-family: "PT Serif", serif;
+
 @import "../../node_modules/bootstrap/scss/bootstrap";

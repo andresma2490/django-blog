@@ -12,86 +12,91 @@
     {% endblock metadata %}
     <title>{% block title %}{% endblock title %}</title>
 
-    <link rel="stylesheet" href="{% static 'css/min.css' %}">
+    {% if DEBUG %}
+        <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
+    {% else %}
+        <link rel="stylesheet" href="{% static 'css/min.css' %}">
+    {% endif %}
+
     <script src="{% static 'lazysizes.min.js' %}" async=""></script>
     {% block styles %}
     {% endblock styles %}
 </head>
 <body>
     <!-- Navbar -->
-    <nav id="navigation" class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <div class="container-lg px-0">
-            <div class="d-flex justify-content-between align-items-center w-100">
-                <a class="navbar-brand d-none d-sm-inline ps-3" href="{% url 'articles:home' %}">myBlog</a>
-                <a class="navbar-brand d-sm-none ps-3" href="{% url 'articles:home' %}">mB</a>
-
-                <form id="search_form" method="GET" action="{% url 'articles:home' %}" class="d-flex position-relative ms-md-auto w-15rem me-2">
-                    <input id="search_title" name="title" type="text" class="input-search w-100 text-white" placeholder="Search">
-                    <span onclick="submitForm('search_form')" class="position-absolute end-0 cursor-pointer text-white px-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                        </svg>
-                    </span>
-                </form>
-
-                <button class="navbar-toggler me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+    <div class=" border-bottom">
+      <div class="container-lg">
+        <header class="blog-header lh-1 pt-4 pb-2">
+          <div class="row flex-nowrap justify-content-between align-items-center">
+            <div class="col-4 pt-1">
+              <!-- <a class="text-decoration-none link-secondary" href="#">Subscribe</a> -->
             </div>
-
-            <div class="collapse navbar-collapse bg-dark mt-1 mt-md-0 px-3 px-md-0" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto me-md-3">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Categories
-                    </a>
-                    <ul id="categories-menu" class="dropdown-menu dropdown-menu-dark dropdown-menu-end end-0" aria-labelledby="navbarDropdown">
-                        <div class="row">
-                            {% for category in categories %}
-                                <li class="col-12 col-sm-6 {% if forloop.counter|divisibleby:2 %}ps-sm-0{% else %}pe-sm-0{% endif %} cursor-pointer">
-                                    <a class="dropdown-item" href="{% url 'articles:home' %}?category={{ category.name }}">
-                                        {{ category.name }}
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </div>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'users:login' %}">
-                        {% if user.is_authenticated %} My Account {% else %} Login {% endif %}
-                    </a>
-                </li>
-                </ul>
+            <div class="col-4 text-center">
+              <a class="d-block h1 text-decoration-none text-dark m-0" href="{% url 'articles:home' %}">myBløg</a>
             </div>
+            <div class="col-4 d-flex justify-content-end align-items-center">
+              <form id="search_form" method="GET" action="{% url 'articles:home' %}" class="d-flex position-relative ms-md-auto w-15rem me-2">
+                <input id="search_title" name="title" type="text" class="form-control w-100" placeholder="Search">
+                <span onclick="submitForm('search_form')" class="position-absolute end-0 cursor-pointer p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </span>
+              </form>
+              <a class="p-2 text-decoration-none link-secondary" href="{% url 'users:login' %}">
+                  {% if user.is_authenticated %} My Account {% else %} Login {% endif %}
+              </a>
+            </div>
+          </div>
+        </header>
+        <div class="nav-scroller pt-1 pb-2">
+          <nav class="nav d-flex justify-content-between">
+            {% for category in categories %}
+              <a class="p-2 text-decoration-none link-secondary" href="{% url 'articles:home' %}?category={{ category.name }}">{{ category }}</a>
+            {% endfor %}
+          </nav>
         </div>
-    </nav>
+      </div>
+    </div>
+    <div id="content" class="container-lg">
+        <div class="row mx-0">
+            <div class="col-12 col-md-8 col-xxl-9 px-0 pe-2">
+                <!-- Main Content -->
+                {% block content %}
+                {% endblock content %}
+            </div>
+            <div class="col-12 col-md-4 col-xxl-3">
+              <h4 class="">About</h4>
+              <p>Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam <a href="#">semper libero</a>, sit amet adipiscing sem neque sed ipsum. </p>
+              <div class="googlebar">
+                <span class="blue"></span><span class="red"></span><span class="orange"></span><span class="green"></span>
+              </div>
 
-    <div id="content">
-        {% if request.resolver_match.url_name == 'home' %}
-            {% if not request.GET or request.GET.page == '1' %}
-                <header id="home-header" class="d-flex justify-content-center align-items-end"
-                        style="background-image: url('media/default/header.jpg');
-                            background-color: rgb(100,100,100);
-                            background-blend-mode: soft-light;
-                            background-repeat: no-repeat;
-                            background-size: cover;
-                            background-position: center center;
-                            background-attachment: fixed;
-                            height: 44vh;">
+              <div class="mt-4">
+                <h4 class="">Tags</h4>
+                <a class="btn btn-light btn-sm mb-1" href="page-category.html">Journey</a>
+                <a class="btn btn-light btn-sm mb-1" href="page-category.html">Work</a>
+                <a class="btn btn-light btn-sm mb-1" href="page-category.html">Lifestype</a>
+                <a class="btn btn-light btn-sm mb-1" href="page-category.html">Photography</a>
+                <a class="btn btn-light btn-sm mb-1" href="page-category.html">Food &amp; Drinks</a>
+              </div>
 
-                    <div class="mb-5 text-center text-white">
-                        <h1>myBlog</h1>
-                        <span><i>A Blog project made with django</i></span>
-                    </div>
-                </header>
-            {% endif %}
-        {% endif %}
+              <div class="mt-4">
+                <h4 class="">Popular stories</h4>
 
-        <div class="container-lg pt-2">
-            <!-- Main Content -->
-            {% block content %}
-            {% endblock content %}
+                <a href="post-image.html" class="d-inline-block">
+                  <h4 class="h6">The blind man</h4>
+                  <img class="card-img" src="img/articles/2.jpg" alt="">
+                </a>
+                <time class="timeago" datetime="2021-09-03 20:00" timeago-id="22">11 months ago</time> in Lifestyle
+
+                <a href="post-image.html" class="d-inline-block mt-3">
+                  <h4 class="h6">Crying on the news</h4>
+                  <img class="card-img" src="img/articles/3.jpg" alt="">
+                </a>
+                <time class="timeago" datetime="2021-07-16 20:00" timeago-id="23">1 year ago</time> in Work
+              </div>
+            </div>
         </div>
     </div>
 

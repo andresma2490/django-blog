@@ -1,12 +1,8 @@
-.grid-articles {
-    display: grid;
-    grid-gap: 0.5rem;
-    grid-auto-rows: 1fr;
-    grid-template-columns: repeat(3, 1fr);
+.column-articles {
+    columns: 2;
+    column-gap: 0.5rem;
 
-    @media screen and (max-width: 1200px) {
-        &>article {
-            grid-column: 1/-1;
-        }
+    @media screen and (max-width: 992px){
+        columns: 1;
     }
 }

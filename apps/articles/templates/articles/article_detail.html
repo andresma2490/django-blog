@@ -11,7 +11,7 @@
 {% endblock metadata %}
 
 {% block content %}
-    <main class="row p-4 m-0 mt-4 bg-white border">
+    <main class="row p-4 m-0 mb-4 bg-white border">
         <div class="col-8">
             <h1>{{ article.title }}</h1>
         </div>
@@ -21,9 +21,9 @@
                 <a type="button" class="btn btn-danger" onclick="loadModal('{% url 'articles:article_delete' article.id %}')">Delete</a>
             </div>
         {% endif %}
-        
+
         <div class="col-12">
-            <img src="{{ article.image.url }}" 
+            <img src="{{ article.image.url }}"
                 class="col-12 h-15rem"
                 style="object-fit: contain"
                 alt="{{ article.title }}"/>

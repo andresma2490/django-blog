@@ -3,8 +3,8 @@
     myBlog | login
 {% endblock title %}
 
-{% block content %}
-    <div class="d-flex justify-content-center align-items-center mt-5">
+{% block container %}
+    <div id="content" class="d-flex justify-content-center align-items-center">
         <div class="card">
             <div class="card-body p-5">
                 <div class="text-center mb-3">
@@ -17,10 +17,10 @@
                 <form method="post">
                     {% csrf_token %}
                     <div class="mb-3">
-                        {{ form.email }}                        
+                        {{ form.email }}
                     </div>
                     <div class="mb-3">
-                        {{ form.password }}                      
+                        {{ form.password }}
                     </div>
 
                     {% if form.errors %}
@@ -44,11 +44,11 @@
                         </button>
                     </div>
                     <div class="text-center">
-                        Dont have an account? 
+                        Dont have an account?
                         <a href='{% url "users:register" %}'>sign up</a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-{% endblock content %}
+{% endblock container %}

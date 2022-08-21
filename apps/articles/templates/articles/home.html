@@ -25,14 +25,12 @@
                             Posted on {{ article.date_created }} by <a class="text-decoration-none mx-1" href="{% url 'users:profile' article.author.username %}">{{ article.author.username|truncatechars:10 }}</a>
                         </span>
                     </div>
-                    <img data-src="{{ article.image.url }}"
-                        class="lazyload w-100"
-                        alt="{{ article.title }}"/>
+                    <a href="{% url 'articles:article_detail' article.slug %}">
+                        <img data-src="{{ article.image.url }}"
+                            class="lazyload w-100"
+                            alt="{{ article.title }}"/>
+                    </a>
                     {{ article.content|safe|truncatechars:220 }}
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus voluptatibus laboriosam veritatis est nihil, sed alias voluptatem cumque quam laudantium velit consectetur quis, explicabo facere eius. Distinctio voluptatem minus ex.
-                    </p>
-
                 </article>
             {% endfor %}
         {% else %}
@@ -45,5 +43,4 @@
 {% endblock content %}
 
 {% block scripts %}
-    <script src="{% static 'users/js/users.js' %}"></script>
 {% endblock scripts %}

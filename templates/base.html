@@ -12,7 +12,7 @@
     {% endblock metadata %}
     <title>{% block title %}{% endblock title %}</title>
 
-    {% if DEBUG %}
+    {% if DEBUG == 'True' %}
         <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
     {% else %}
         <link rel="stylesheet" href="{% static 'css/min.css' %}">
@@ -33,7 +33,42 @@
                     {% block content %}
                     {% endblock content %}
                 </div>
-                {% include 'utils/_aside.html' %}
+                <!-- Aside -->
+                <aside class="col-12 col-md-4 col-lg-3">
+                    <h4 class="">About</h4>
+                    <p>
+                        {% block about %}
+                            {{ about|default:""|truncatechars:300 }}
+                        {% endblock about %}
+                    </p>
+                    <div class="googlebar">
+                        <span class="blue"></span><span class="red"></span><span class="orange"></span><span class="green"></span>
+                    </div>
+
+                    <div class="mt-4">
+                        <h4 class="">Categories</h4>
+                        {% for category in categories %}
+                            <a class="btn btn-light btn-sm mb-1" href="{% url 'articles:home' %}?category={{ category.name }}">
+                                {{ category }}
+                            </a>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mt-4">
+                        <h4 class="m-0">Popular Articles</h4>
+                        {% for article in popular_articles %}
+                            <a href="{% url 'articles:article_detail' article.slug %}" class="d-inline-block text-decoration-none">
+                                <h4 class="h6 mt-4">{{ article.title|truncatechars:44 }}</h4>
+                                <img class="card-img" src="{{ article.image.url }}" alt="{{ article.title }}">
+                            </a>
+
+                            {% comment %}
+                                TODO: use date fns
+                                <time class="timeago" datetime="2021-09-03 20:00" timeago-id="22">11 months ago</time> in Lifestyle
+                            {% endcomment %}
+                        {% endfor %}
+                    </div>
+                </aside>
             </div>
         </div>
     {% endblock container %}

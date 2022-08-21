@@ -12,6 +12,10 @@
     {{ form.media }}
 {% endblock styles %}
 
+{% block about %}
+    {{ article.author.description|default:"This author has no description yet"|truncatechars:300 }}
+{% endblock about %}
+
 {% block content %}
     <form class="row p-4 m-0 mt-4 bg-white border" method="post" enctype="multipart/form-data">
         {% csrf_token %}

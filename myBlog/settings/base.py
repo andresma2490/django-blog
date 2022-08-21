@@ -76,6 +76,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'apps.context_processors.debug',
                 'apps.context_processors.getCategories',
+                'apps.context_processors.getPopularArticles',
+                'apps.context_processors.about',
             ],
         },
     },

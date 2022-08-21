@@ -4,6 +4,10 @@
     Profile
 {% endblock title %}
 
+{% block about %}
+    {{ article.author.description|default:"This author has no description yet"|truncatechars:300 }}
+{% endblock about %}
+
 {% block content %}
     <div class="container p-0 py-2">
         {% if request.user == user_profile %}
@@ -16,7 +20,7 @@
             <a href="{% url 'users:logout' %}" class="btn btn-primary">
                 Logout
             </a>
-        {% endif %}  
+        {% endif %}
     </div>
 
     {# Articles list #}

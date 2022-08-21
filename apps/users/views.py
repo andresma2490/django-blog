@@ -23,13 +23,14 @@ class RegisterView(FormView):
     success_url = reverse_lazy("articles:home")
 
     def form_valid(self, form):
-        User.objects.create_user(
+        user = User.objects.create_user(
             form.cleaned_data["username"],
             form.cleaned_data["email"],
             form.cleaned_data["password1"],
             name = form.cleaned_data["name"],
             lastname = form.cleaned_data["lastname"],
         )
+        login(self.request, user)
         return super(RegisterView, self).form_valid(form)
 
 @method_decorator(login_excluded, name='dispatch')

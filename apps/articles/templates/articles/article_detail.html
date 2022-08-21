@@ -10,8 +10,12 @@
     <meta name="author" content="{{ article.author.username }}">
 {% endblock metadata %}
 
+{% block about %}
+    {{ article.author.description|default:"This author has no description yet"|truncatechars:300 }}
+{% endblock about %}
+
 {% block content %}
-    <main class="row p-4 m-0 mb-4 bg-white border">
+<main class="row p-4 m-0 mb-4 bg-white border">
         <div class="col-8">
             <h1>{{ article.title }}</h1>
         </div>

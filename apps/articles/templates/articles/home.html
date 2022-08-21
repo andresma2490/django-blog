@@ -9,27 +9,28 @@
 
 
 {% block content %}
-    <main class="grid-articles">
+    <main class="column-articles">
         {% if articles %}
             {% for article in articles %}
-                <article class="row align-content-start m-0 p-3 pt-0 bg-white border">
-                    <div class="col-12 col-md-6 col-xl-12 h-15rem position-relative overflow-hidden">
-                        <img data-src="{{ article.image.url }}"
-                            class="lazyload position-absolute start-0 h-100 w-100"
-                            style="object-fit: cover; filter: blur(10px);"
-                            alt="{{ article.title }}"/>
-                        <img data-src="{{ article.image.url }}"
-                            class="lazyload position-absolute start-0 h-100 w-100"
-                            style="object-fit: contain"
-                            alt="{{ article.title }}"/>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-12">
-                        <h2><a class="text-decoration-none" href="{% url 'articles:article_detail' article.slug %}">{{ article.title|truncatechars:44 }}</a></h2>
-                        <div class="d-flex align-items-center text-muted mb-4">
+                <article class="d-inline-block me-4 mb-4" style="border-bottom: 1px solid rgba(0,0,0,.1);">
+                    <div class="px-2 mb-4">
+                        <a
+                            class="d-block h2 text-decoration-none text-dark m-0"
+                            style="line-height: 1.7rem;"
+                            href="{% url 'articles:article_detail' article.slug %}"
+                        >
+                            {{ article.title|truncatechars:44 }}
+                        </a>
+                        <span>
                             Posted on {{ article.date_created }} by <a class="text-decoration-none mx-1" href="{% url 'users:profile' article.author.username %}">{{ article.author.username|truncatechars:10 }}</a>
-                        </div>
-                        <p>{{ article.content|safe|truncatechars:220 }}</p>
+                        </span>
                     </div>
+                    <a href="{% url 'articles:article_detail' article.slug %}">
+                        <img data-src="{{ article.image.url }}"
+                            class="lazyload w-100"
+                            alt="{{ article.title }}"/>
+                    </a>
+                    {{ article.content|safe|truncatechars:220 }}
                 </article>
             {% endfor %}
         {% else %}
@@ -42,5 +43,4 @@
 {% endblock content %}
 
 {% block scripts %}
-    <script src="{% static 'users/js/users.js' %}"></script>
 {% endblock scripts %}

@@ -11,7 +11,11 @@
 {% block styles %}
     {{ form.media }}
 {% endblock styles %}
-    
+
+{% block about %}
+    {{ article.author.description|default:"This author has no description yet"|truncatechars:300 }}
+{% endblock about %}
+
 {% block content %}
     <form class="row p-4 m-0 mt-4 bg-white border" method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -38,7 +42,7 @@
         <b class="mt-4 p-0">{{ form.keywords.label }}</b>
         {{ form.keywords }}
         <span class="text-danger p-0">{{ form.keywords.errors }}</span>
-        
+
         <div class="mt-4 p-0 text-end">
             <a class="btn btn-danger" href="{% if object %}{% url 'articles:article_detail' object.slug %}{% else %}{% url 'articles:home' %}{% endif %}">Cancel</a>
             <button type="submit" class="btn btn-primary">Save</button>

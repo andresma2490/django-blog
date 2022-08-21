@@ -7,6 +7,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField("username", max_length=50, unique=True, error_messages={ "unique": "That username already exists" })
     name = models.CharField("name", max_length=100)
     lastname = models.CharField("lastname", max_length=100)
+    description = models.TextField("description", blank=True, null=True)
 
     is_editor = models.BooleanField("is_editor", default=False)
     is_staff = models.BooleanField("is_staff", default=False)

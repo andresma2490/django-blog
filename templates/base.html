@@ -12,88 +12,66 @@
     {% endblock metadata %}
     <title>{% block title %}{% endblock title %}</title>
 
-    <link rel="stylesheet" href="{% static 'css/min.css' %}">
+    {% if DEBUG == 'True' %}
+        <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
+    {% else %}
+        <link rel="stylesheet" href="{% static 'css/min.css' %}">
+    {% endif %}
+
     <script src="{% static 'lazysizes.min.js' %}" async=""></script>
     {% block styles %}
     {% endblock styles %}
 </head>
 <body>
-    <!-- Navbar -->
-    <nav id="navigation" class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <div class="container-lg px-0">
-            <div class="d-flex justify-content-between align-items-center w-100">
-                <a class="navbar-brand d-none d-sm-inline ps-3" href="{% url 'articles:home' %}">myBlog</a>
-                <a class="navbar-brand d-sm-none ps-3" href="{% url 'articles:home' %}">mB</a>
+    {% include 'utils/_navbar.html' %}
 
-                <form id="search_form" method="GET" action="{% url 'articles:home' %}" class="d-flex position-relative ms-md-auto w-15rem me-2">
-                    <input id="search_title" name="title" type="text" class="input-search w-100 text-white" placeholder="Search">
-                    <span onclick="submitForm('search_form')" class="position-absolute end-0 cursor-pointer text-white px-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                        </svg>
-                    </span>
-                </form>
-
-                <button class="navbar-toggler me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-
-            <div class="collapse navbar-collapse bg-dark mt-1 mt-md-0 px-3 px-md-0" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto me-md-3">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Categories
-                    </a>
-                    <ul id="categories-menu" class="dropdown-menu dropdown-menu-dark dropdown-menu-end end-0" aria-labelledby="navbarDropdown">
-                        <div class="row">
-                            {% for category in categories %}
-                                <li class="col-12 col-sm-6 {% if forloop.counter|divisibleby:2 %}ps-sm-0{% else %}pe-sm-0{% endif %} cursor-pointer">
-                                    <a class="dropdown-item" href="{% url 'articles:home' %}?category={{ category.name }}">
-                                        {{ category.name }}
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </div>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'users:login' %}">
-                        {% if user.is_authenticated %} My Account {% else %} Login {% endif %}
-                    </a>
-                </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div id="content">
-        {% if request.resolver_match.url_name == 'home' %}
-            {% if not request.GET or request.GET.page == '1' %}
-                <header id="home-header" class="d-flex justify-content-center align-items-end"
-                        style="background-image: url('media/default/header.jpg');
-                            background-color: rgb(100,100,100);
-                            background-blend-mode: soft-light;
-                            background-repeat: no-repeat;
-                            background-size: cover;
-                            background-position: center center;
-                            background-attachment: fixed;
-                            height: 44vh;">
-
-                    <div class="mb-5 text-center text-white">
-                        <h1>myBlog</h1>
-                        <span><i>A Blog project made with django</i></span>
+    {% block container %}
+        <div id="content" class="container-lg pt-5">
+            <div class="row mx-0">
+                <div class="col-12 col-md-8 col-lg-9 px-0 pe-2">
+                    <!-- Main Content -->
+                    {% block content %}
+                    {% endblock content %}
+                </div>
+                <!-- Aside -->
+                <aside class="col-12 col-md-4 col-lg-3">
+                    <h4 class="">About</h4>
+                    <p>
+                        {% block about %}
+                            {{ about|default:""|truncatechars:300 }}
+                        {% endblock about %}
+                    </p>
+                    <div class="googlebar">
+                        <span class="blue"></span><span class="red"></span><span class="orange"></span><span class="green"></span>
                     </div>
-                </header>
-            {% endif %}
-        {% endif %}
 
-        <div class="container-lg pt-2">
-            <!-- Main Content -->
-            {% block content %}
-            {% endblock content %}
+                    <div class="mt-4">
+                        <h4 class="">Categories</h4>
+                        {% for category in categories %}
+                            <a class="btn btn-light btn-sm mb-1" href="{% url 'articles:home' %}?category={{ category.name }}">
+                                {{ category }}
+                            </a>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mt-4">
+                        <h4 class="m-0">Popular Articles</h4>
+                        {% for article in popular_articles %}
+                            <a href="{% url 'articles:article_detail' article.slug %}" class="d-inline-block text-decoration-none">
+                                <h4 class="h6 mt-4">{{ article.title|truncatechars:44 }}</h4>
+                                <img class="card-img" src="{{ article.image.url }}" alt="{{ article.title }}">
+                            </a>
+
+                            {% comment %}
+                                TODO: use date fns
+                                <time class="timeago" datetime="2021-09-03 20:00" timeago-id="22">11 months ago</time> in Lifestyle
+                            {% endcomment %}
+                        {% endfor %}
+                    </div>
+                </aside>
+            </div>
         </div>
-    </div>
+    {% endblock container %}
 
     <!-- Modal -->
     <div class="modal fade" id="mainModal" aria-labelledby="mainModalLabel" aria-hidden="true">
@@ -105,36 +83,16 @@
     </div>
 
     <!-- Footer -->
-    <footer id="footer" class="bg-dark">
+    <footer id="footer" class="position-absolute w-100 bg-dark">
         <div class="container">
             <p class="pt-3 text-center text-white">Copyright © myBlog <span id="year"></span></p>
         </div>
     </footer>
 
-    <script>
-        document.getElementById("year").innerHTML = new Date().getFullYear();
-
-        function loadModal(url, id="mainModal"){
-            const modal = document.getElementById(id);
-            const modal_bs = new bootstrap.Modal(modal);
-            fetch(url)
-                .then(response => response.text())
-                .then(html =>{
-                    modal.querySelector(".modal-content").innerHTML = html;
-                    modal_bs.show();
-                })
-                .catch(error =>{
-                    console.error(error);
-                })
-        }
-
-        function submitForm(id){
-            const form = document.getElementById(id);
-            form.submit();
-        }
-    </script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="{% static 'js/base.js' %}"></script>
     {% block scripts %}
     {% endblock scripts %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -1,1 +1,1 @@
-.grid-articles{display:grid;grid-gap:.5rem;grid-auto-rows:1fr;grid-template-columns:repeat(3, 1fr)}@media screen and (max-width: 1200px){.grid-articles>article{grid-column:1/-1}}/*# sourceMappingURL=articles.min.css.map */
+.column-articles{-moz-columns:2;columns:2;-moz-column-gap:.5rem;column-gap:.5rem}@media screen and (max-width: 992px){.column-articles{-moz-columns:1;columns:1}}/*# sourceMappingURL=articles.min.css.map */

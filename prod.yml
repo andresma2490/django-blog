@@ -1,5 +1,5 @@
 version: "3.9"
-   
+
 services:
   db:
     image: postgres
@@ -15,7 +15,9 @@ services:
       retries: 5
 
   web:
-    build: .
+    build:
+        context: .
+        dockerfile: Dockerfile.dev
     command: /bin/bash -c "python manage.py migrate && gunicorn myBlog.wsgi:application --bind 0.0.0.0:8080 --workers 1"
     volumes:
       - .:/code
